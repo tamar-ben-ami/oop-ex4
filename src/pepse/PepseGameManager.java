@@ -5,6 +5,7 @@ import danogl.gui.*;
 import pepse.world.*;
 import pepse.world.daynight.*;
 import danogl.collisions.Layer;
+import java.util.List;
 
 /**
  * The Pepse Game manager class
@@ -46,7 +47,15 @@ public class PepseGameManager extends GameManager {
         gameObjects().addGameObject(sky, Layer.BACKGROUND);
         GameObject night = Night.create(windowController.getWindowDimensions(), CYCLE_LENGTH);
         gameObjects().addGameObject(night, Layer.BACKGROUND);
-        GameObject sun = Sun.create(windowController.getWindowDimensions(), CYCLE_LENGTH);
+        // TODO fix the sun speed
+        GameObject sun = Sun.create(windowController.getWindowDimensions(), 100*CYCLE_LENGTH);
         gameObjects().addGameObject(sun, Layer.BACKGROUND);
+        GameObject sunHalo = SunHalo.create(sun);
+        gameObjects().addGameObject(sunHalo, Layer.BACKGROUND);
+        Terrain terrian = new Terrain(windowController.getWindowDimensions(), 0);
+        List<Block> listBlocks = terrian.createInRange(0, (int) windowController.getWindowDimensions().x());
+        for (Block block : listBlocks) {
+            this.gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
+        }
     }
 }
