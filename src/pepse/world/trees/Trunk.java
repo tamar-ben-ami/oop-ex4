@@ -1,6 +1,7 @@
 package pepse.world.trees;
 
 import danogl.GameObject;
+import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 
@@ -13,6 +14,10 @@ public class Trunk extends GameObject {
     public static final RectangleRenderable TRUNK_RENDERABLE = new RectangleRenderable(TRUNK_COLOR);
 
     public Trunk(Vector2 groundHeight, float height) {
-        super(new Vector2(groundHeight.x(), groundHeight.y() + height), new Vector2(TRUNK_WIDTH, height), TRUNK_RENDERABLE);
+        super(new Vector2(groundHeight.x(), groundHeight.y() - height), new Vector2(TRUNK_WIDTH, height), TRUNK_RENDERABLE);
+        physics().preventIntersectionsFromDirection(Vector2.ZERO);
+        physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
     }
+
+
 }

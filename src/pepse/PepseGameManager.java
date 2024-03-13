@@ -7,9 +7,12 @@ import danogl.util.Vector2;
 import pepse.world.*;
 import pepse.world.daynight.*;
 import danogl.collisions.Layer;
+import pepse.world.trees.Leaf;
+import pepse.world.trees.Tree;
 import pepse.world.trees.Trunk;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * The Pepse Game manager class
@@ -18,6 +21,7 @@ import java.util.List;
  */
 public class PepseGameManager extends GameManager {
     private static final float CYCLE_LENGTH = 30;
+    private final static Random random = new Random();
 
     private Terrain terrian;
     private List<Block> listBlocks;
@@ -38,6 +42,14 @@ public class PepseGameManager extends GameManager {
         new PepseGameManager().run();
     }
 
+    private void createTree(float groundCoordX, int numLeaves, float height) {
+        Tree tree = new Tree(new Vector2(groundCoordX, terrian.groundHeightAt(groundCoordX)),
+                height, numLeaves, CYCLE_LENGTH);
+        gameObjects().addGameObject(tree.getTrunk());
+        for (int i = 0; i < numLeaves*numLeaves; i ++) {
+            gameObjects().addGameObject(tree.getLeaf(i), -5);
+        }
+    }
 
     private void createWorld(WindowController windowController) {
         GameObject sky = Sky.create(windowController.getWindowDimensions());
@@ -76,14 +88,9 @@ public class PepseGameManager extends GameManager {
         energyLevelDisplayer = new EnergyLevelDisplayer(avatar::getEnergyLevel);
         gameObjects().addGameObject(energyLevelDisplayer);
 
-//        System.out.println("heights: " );
-//        for (int i = 0; i < 1000; i += 20) {
-//            System.out.println("x: " + i +", h: " + terrian.groundHeightAt(i) +". ");
-//        }
-//        Trunk t = new Trunk(Vector2.of(500, 570 + 80), 80);
-//        gameObjects().addGameObject(t);
-//        Trunk t1 = new Trunk(Vector2.of(880, terrian.groundHeightAt(880) + 80), 80);
-//        gameObjects().addGameObject(t1);
+        // create random trees at random places with random number of leaves and heights
+        createTree(250, 7, 100);
+        createTree(700, 15, 150);
 
     }
 }

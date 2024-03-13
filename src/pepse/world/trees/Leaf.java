@@ -9,28 +9,29 @@ import danogl.util.Vector2;
 import pepse.world.Block;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Leaf extends Block {
     private static final Color LEAF_COLOR = new Color(50, 200, 30);
-    public static final RectangleRenderable LEAF_RENDERABLE = new RectangleRenderable(LEAF_COLOR);
+    private static final RectangleRenderable LEAF_RENDERABLE = new RectangleRenderable(LEAF_COLOR);
+    private final static Random random = new Random();
 
-    public static final float LEAF_SIZE = 15;
+    public static final int LEAF_SIZE = 15;
     public static final Vector2 LEAF_DIMENSION = new Vector2(LEAF_SIZE, LEAF_SIZE);
 
-    private static final Float INITIAL_ANGLE = 10.f;
-    private static final Float FINAL_ANGLE = -10.f;
+    private static final Float INITIAL_ANGLE = 20f;
+    private static final Float FINAL_ANGLE = -20.f;
 
-    private static final Float INITIAL_DIM_DOUBLE = 0.7f;
-    private static final Float FINAL_DIM_DOUBLE = 1.3f;
+    private static final Float INITIAL_DIM_DOUBLE = 0.85f;
+    private static final Float FINAL_DIM_DOUBLE = 1.15f;
 
     private float cycleLength;
-    private int leafCounter;
 
-    public Leaf(Vector2 topLeftCorner, float cycleLength, int leafCounter) {
-        super(topLeftCorner, LEAF_RENDERABLE);
+    public Leaf(Vector2 topLeftCorner, float cycleLength) {
+        super(topLeftCorner, LEAF_RENDERABLE, LEAF_SIZE);
         this.cycleLength = cycleLength;
         new ScheduledTask(this,
-                (leafCounter) % cycleLength,
+                (random.nextInt()) % (cycleLength/2),
                 true,
                 this::rotateLeaf);
     };
