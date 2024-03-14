@@ -2,19 +2,15 @@ package pepse;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.gui.*;
-import danogl.gui.rendering.TextRenderable;
 import danogl.util.Vector2;
 import pepse.world.*;
 import pepse.world.daynight.*;
 import danogl.collisions.Layer;
 import pepse.world.trees.Flora;
-import pepse.world.trees.Leaf;
 import pepse.world.trees.Tree;
-import pepse.world.trees.Trunk;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * The Pepse Game manager class
@@ -23,16 +19,13 @@ import java.util.Random;
  */
 public class PepseGameManager extends GameManager {
     private static final float CYCLE_LENGTH = 30;
-    private final static Random random = new Random();
-
-    private Terrain terrian;
-    private Vector2 windowDimensions;
-    private List<Block> listBlocks;
-    private EnergyLevelDisplayer energyLevelDisplayer;
+    private Terrain terrain;
+    private Flora flora;
     private List<Tree> trees;
+    private Vector2 windowDimensions;
 
     /**
-     * Constructor of pepse game.
+     * Constructor of Pepse game.
      */
     public PepseGameManager(){
         super();
@@ -49,16 +42,13 @@ public class PepseGameManager extends GameManager {
 
     private void createWorld(WindowController windowController) {
         this.windowDimensions = windowController.getWindowDimensions();
-        GameObject sky = Sky.create(windowDimensions);
-        gameObjects().addGameObject(sky, Layer.BACKGROUND);
-        GameObject night = Night.create(windowDimensions, CYCLE_LENGTH);
-        gameObjects().addGameObject(night, Layer.BACKGROUND);
+        gameObjects().addGameObject(Sky.create(windowDimensions), Layer.BACKGROUND);
+        gameObjects().addGameObject(Night.create(windowDimensions, CYCLE_LENGTH), Layer.BACKGROUND);
         GameObject sun = Sun.create(windowDimensions, 100*CYCLE_LENGTH);
         gameObjects().addGameObject(sun, Layer.BACKGROUND);
-        GameObject sunHalo = SunHalo.create(sun);
-        gameObjects().addGameObject(sunHalo, Layer.BACKGROUND);
-        terrian = new Terrain(windowDimensions, 0);
-        listBlocks = terrian.createInRange(0, (int) windowDimensions.x());
+        gameObjects().addGameObject(SunHalo.create(sun), Layer.BACKGROUND);
+        terrain = new Terrain(windowDimensions, 0);
+        List<Block> listBlocks = terrain.createInRange(0, (int) windowDimensions.x());
         for (Block block : listBlocks) {
             this.gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
         }
@@ -73,10 +63,10 @@ public class PepseGameManager extends GameManager {
 
     /**
      * Initializes the pepse game.
-     * @param imageReader
-     * @param soundReader
-     * @param inputListener
-     * @param windowController
+     * @param imageReader image reader
+     * @param soundReader sound reader
+     * @param inputListener input listener
+     * @param windowController window controller
      */
     @Override
     public void initializeGame(ImageReader imageReader,
@@ -88,21 +78,16 @@ public class PepseGameManager extends GameManager {
 
         var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, this::onJumpCallback);
         gameObjects().addGameObject(avatar);
-        energyLevelDisplayer = new EnergyLevelDisplayer(avatar::getEnergyLevel);
-        gameObjects().addGameObject(energyLevelDisplayer);
+        gameObjects().addGameObject(new EnergyLevelDisplayer(avatar::getEnergyLevel));
 
         // create random trees at random places with random number of leaves and heights
         trees = new ArrayList<>();
-        Flora flora = new Flora(this, 0, terrian::groundHeightAt, avatar::addEnergy);
+        Flora flora = new Flora(0, terrain::groundHeightAt, avatar::addEnergy);
         for (GameObject obj: flora.createInRange(0, (int) windowDimensions.x())) {
             gameObjects().addGameObject(obj);
         }
         trees.addAll(flora.getTreesList());
 
-    }
-
-    public Vector2 windowDimensions() {
-        return windowDimensions;
     }
 
 }
