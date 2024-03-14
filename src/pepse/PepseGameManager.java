@@ -11,6 +11,7 @@ import pepse.world.trees.Leaf;
 import pepse.world.trees.Tree;
 import pepse.world.trees.Trunk;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ public class PepseGameManager extends GameManager {
     private Terrain terrian;
     private List<Block> listBlocks;
     private EnergyLevelDisplayer energyLevelDisplayer;
+    private List<Tree> trees;
 
     /**
      * Constructor of pepse game.
@@ -42,14 +44,6 @@ public class PepseGameManager extends GameManager {
         new PepseGameManager().run();
     }
 
-    private void createTree(float groundCoordX, int numLeaves, float height) {
-        Tree tree = new Tree(new Vector2(groundCoordX, terrian.groundHeightAt(groundCoordX)),
-                height, numLeaves, CYCLE_LENGTH);
-        gameObjects().addGameObject(tree.getTrunk());
-        for (int i = 0; i < numLeaves*numLeaves; i ++) {
-            gameObjects().addGameObject(tree.getLeaf(i), -5);
-        }
-    }
 
     private void createWorld(WindowController windowController) {
         GameObject sky = Sky.create(windowController.getWindowDimensions());
@@ -68,6 +62,13 @@ public class PepseGameManager extends GameManager {
         }
     }
 
+    private void onJumpCallback() {
+        System.out.println("hi");
+        for (int i = 0; i < trees.size(); i++) {
+            trees.get(i).onJump();
+        }
+    }
+
     /**
      * Initializes the pepse game.
      * @param imageReader
@@ -82,15 +83,16 @@ public class PepseGameManager extends GameManager {
                                WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         createWorld(windowController);
-
-        var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader);
+        trees = new ArrayList<>();
+        var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, this::onJumpCallback);
         gameObjects().addGameObject(avatar);
         energyLevelDisplayer = new EnergyLevelDisplayer(avatar::getEnergyLevel);
         gameObjects().addGameObject(energyLevelDisplayer);
 
         // create random trees at random places with random number of leaves and heights
-        createTree(250, 7, 100);
-        createTree(700, 15, 150);
+        trees.add(Tree.createTree(250, terrian.groundHeightAt(250), 7, 7,100, gameObjects(), CYCLE_LENGTH, avatar::addEnergy));
+        trees.add(Tree.createTree(700, terrian.groundHeightAt(700), 15, 10,150, gameObjects(), CYCLE_LENGTH, avatar::addEnergy));
+//        createTree(700, 15, 150);
 
     }
 }

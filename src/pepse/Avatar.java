@@ -22,6 +22,7 @@ public class Avatar  extends GameObject {
     private static final float VELOCITY_Y = -400;
     private static final float GRAVITY = 250;
     private static final float TIME_BETWEEN_ANIMATION_CLIPS = 0.125f;
+    private static final float MAX_ENERGY = 100;
     private static final float JUMP_ENERGY_LOSS = 10;
     private static final float MOVE_ENERGY_LOSS = 0.5F;
     private static final float STANDING_ENERGY_GAIN = 1;
@@ -31,12 +32,14 @@ public class Avatar  extends GameObject {
             "src/assets/jump_2.png", "src/assets/jump_3.png"};
     public static final String[] RUN_IMAGE_PATHS = {"src/assets/run_0.png", "src/assets/run_1.png",
             "src/assets/run_2.png", "src/assets/run_3.png", "src/assets/run_4.png", "src/assets/run_5.png"};
+    public static final String AVATAR_TAG = "avatar";
 
     private UserInputListener inputListener;
     private float energyLevel;
     private Renderable idleRenderer;
     private Renderable jumpRenderer;
     private Renderable runRenderer;
+    private Runnable onJumpCallback;
 
     public float getEnergyLevel() {
         return energyLevel;
@@ -44,11 +47,14 @@ public class Avatar  extends GameObject {
 
     public void addEnergy(float energyToAdd) {
         energyLevel += energyToAdd;
+        if (energyLevel > MAX_ENERGY) {
+            energyLevel = MAX_ENERGY;
+        }
     }
 
     public Avatar(Vector2 pos,
                   UserInputListener inputListener,
-                  ImageReader imageReader) {
+                  ImageReader imageReader, Runnable onJumpCallback) {
         super(pos, Vector2.ONES.mult(50), null);
         idleRenderer = new AnimationRenderable(IDLE_IMAGE_PATHS, imageReader, true, TIME_BETWEEN_ANIMATION_CLIPS);
         jumpRenderer = new AnimationRenderable(JUMP_IMAGE_PATHS, imageReader, true, TIME_BETWEEN_ANIMATION_CLIPS);
@@ -57,7 +63,8 @@ public class Avatar  extends GameObject {
         renderer().setIsFlippedHorizontally(true);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         transform().setAccelerationY(GRAVITY);
-
+        this.setTag(AVATAR_TAG);
+        this.onJumpCallback = onJumpCallback;
         this.inputListener = inputListener;
     }
 
@@ -83,10 +90,11 @@ public class Avatar  extends GameObject {
             transform().setVelocityY(VELOCITY_Y);
             energyLevel -= JUMP_ENERGY_LOSS;
             didSomething = true;
+            onJumpCallback.run();
             this.renderer().setRenderable(jumpRenderer);
         }
         if (!didSomething && getVelocity().y() == 0 ) {
-            energyLevel += STANDING_ENERGY_GAIN;
+            addEnergy(STANDING_ENERGY_GAIN);
             this.renderer().setRenderable(idleRenderer);
         }
     }

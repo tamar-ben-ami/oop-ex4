@@ -20,7 +20,7 @@ class EnergyLevelDisplayer extends GameObject{
 
     public EnergyLevelDisplayer(Supplier<Float> energyLevelGetter) {
         super(Vector2.ZERO, NUM_COUNTER_DIM, null);
-        energyImage = new TextRenderable(Integer.toString(0));
+        energyImage = new TextRenderable(Integer.toString(0) + "%");
         this.renderer().setRenderable(energyImage);
         this.energyLevelGetter = energyLevelGetter;
     }
@@ -28,6 +28,6 @@ class EnergyLevelDisplayer extends GameObject{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        energyImage.setString(Float.toString(energyLevelGetter.get()));
+        energyImage.setString(Float.toString(energyLevelGetter.get()) + "%");
     }
 }

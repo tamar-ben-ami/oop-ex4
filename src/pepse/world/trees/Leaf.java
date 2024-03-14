@@ -11,9 +11,10 @@ import pepse.world.Block;
 import java.awt.*;
 import java.util.Random;
 
+import static pepse.util.ColorSupplier.approximateColor;
+
 public class Leaf extends Block {
     private static final Color LEAF_COLOR = new Color(50, 200, 30);
-    private static final RectangleRenderable LEAF_RENDERABLE = new RectangleRenderable(LEAF_COLOR);
     private final static Random random = new Random();
 
     public static final int LEAF_SIZE = 15;
@@ -27,8 +28,8 @@ public class Leaf extends Block {
 
     private float cycleLength;
 
-    public Leaf(Vector2 topLeftCorner, float cycleLength) {
-        super(topLeftCorner, LEAF_RENDERABLE, LEAF_SIZE);
+    public Leaf(Vector2 topLeftCorner, float cycleLength, int colorDelta) {
+        super(topLeftCorner, new RectangleRenderable(approximateColor(LEAF_COLOR, colorDelta)), LEAF_SIZE);
         this.cycleLength = cycleLength;
         new ScheduledTask(this,
                 (random.nextInt()) % (cycleLength/2),
@@ -47,7 +48,16 @@ public class Leaf extends Block {
                 this::setDimensions,
                 LEAF_DIMENSION.mult(INITIAL_DIM_DOUBLE), LEAF_DIMENSION.mult(FINAL_DIM_DOUBLE),
                 Transition.LINEAR_INTERPOLATOR_VECTOR,
-                cycleLength / 15,
+                cycleLength,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+    }
+
+    public void rotateLeafIn90() {
+        new Transition<Float>(this,
+                (Float angle) -> this.renderer().setRenderableAngle(angle),
+                this.renderer().getRenderableAngle(), this.renderer().getRenderableAngle() + 90,
+                Transition.LINEAR_INTERPOLATOR_FLOAT,
+                1,
+                Transition.TransitionType.TRANSITION_ONCE, null);
     }
 }
