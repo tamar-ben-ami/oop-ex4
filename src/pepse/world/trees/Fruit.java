@@ -4,13 +4,12 @@ import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.components.ScheduledTask;
 import danogl.gui.rendering.OvalRenderable;
-import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.Avatar;
 
 import java.awt.*;
-import java.util.Random;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import static pepse.util.ColorSupplier.approximateColor;
@@ -21,10 +20,10 @@ public class Fruit extends GameObject {
     private static final float ENERGY_TO_ADD = 10;
     private static final Color[] FRUIT_COLORS = new Color[] {Color.RED, Color.PINK};
 
-    private Consumer<Float> eatFruitCallback;
+    private final Consumer<Float> eatFruitCallback;
     private boolean isEaten = false;
-    private Renderable renderable;
-    private int colorDelta;
+    private final Renderable renderable;
+    private final int colorDelta;
     private int colorIdx = 0;
 
     public Fruit(Vector2 topLeftCorner, Consumer<Float> eatFruitCallback, int colorDelta) {
@@ -37,7 +36,7 @@ public class Fruit extends GameObject {
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
-        if (other.getTag() == Avatar.AVATAR_TAG) {
+        if (Objects.equals(other.getTag(), Avatar.AVATAR_TAG)) {
             eatFruitCallback.accept(ENERGY_TO_ADD);
             this.renderer().setRenderable(null);
             isEaten = true;

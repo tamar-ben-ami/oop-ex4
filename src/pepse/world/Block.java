@@ -17,8 +17,6 @@ public class Block extends GameObject {
     /**
      * Construct a Block instance with final size.
      *
-     * @param topLeftCorner
-     * @param renderable
      */
     public Block(Vector2 topLeftCorner, Renderable renderable) {
         super(topLeftCorner, Vector2.ONES.mult(SIZE), renderable);

@@ -1,6 +1,5 @@
 package pepse.world;
 
-import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
@@ -23,7 +22,7 @@ public class Terrain {
     public static final String GROUND_TAG = "ground";
     private final NoiseGenerator noiseGenerator;
     private final float groundHeightAtX0;
-    private Vector2 windowDimensions;
+    private final Vector2 windowDimensions;
 
 
     /**

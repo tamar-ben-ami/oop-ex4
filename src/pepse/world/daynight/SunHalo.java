@@ -17,7 +17,7 @@ public class SunHalo {
                 new OvalRenderable(new Color(255, 255, 0, 20)));
         sunHalo.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         sun.setTag(SUN_HALO_TAG);
-        Component component = (deltaTime) -> { sunHalo.setCenter(sun.getCenter()); };
+        Component component = (deltaTime) -> sunHalo.setCenter(sun.getCenter());
         sunHalo.addComponent(component);
 
         return sunHalo;

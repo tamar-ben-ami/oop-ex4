@@ -1,10 +1,7 @@
 package pepse.world.trees;
-
-import danogl.GameObject;
 import danogl.components.ScheduledTask;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
-import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.world.Block;
 
@@ -26,7 +23,7 @@ public class Leaf extends Block {
     private static final Float INITIAL_DIM_DOUBLE = 0.85f;
     private static final Float FINAL_DIM_DOUBLE = 1.15f;
 
-    private float cycleLength;
+    private final float cycleLength;
 
     public Leaf(Vector2 topLeftCorner, float cycleLength, int colorDelta) {
         super(topLeftCorner, null, LEAF_SIZE);
@@ -37,7 +34,7 @@ public class Leaf extends Block {
                 (random.nextInt()) % (cycleLength/2),
                 true,
                 this::rotateLeaf);
-    };
+    }
 
     public void rotateLeaf() {
         new Transition<Float>(this,

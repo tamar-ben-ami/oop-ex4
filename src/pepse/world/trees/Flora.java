@@ -1,12 +1,10 @@
 package pepse.world.trees;
 
 import danogl.GameObject;
-import danogl.util.Vector2;
-import pepse.PepseGameManager;
+
 import pepse.util.mathTools;
 import pepse.world.Block;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;

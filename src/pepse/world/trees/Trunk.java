@@ -2,7 +2,6 @@ package pepse.world.trees;
 
 import danogl.GameObject;
 import danogl.components.GameObjectPhysics;
-import danogl.gui.rendering.OvalRenderable;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 

@@ -56,8 +56,8 @@ public class PepseGameManager extends GameManager {
 
     private void onJumpCallback() {
         System.out.println("hi");
-        for (int i = 0; i < trees.size(); i++) {
-            trees.get(i).onJump();
+        for (Tree tree : trees) {
+            tree.onJump();
         }
     }
 

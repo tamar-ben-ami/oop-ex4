@@ -1,27 +1,21 @@
 package pepse.world.trees;
 
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.util.Vector2;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Tree {
     public static final int LEAF_BUFFER = 3;
-    public static final int NUM_OF_FRUITS = 4;
     public static final int BOUND_COLOR_DELTA = 20;
     private final static Random random = new Random();
 
-    private Trunk trunk;
-    private Leaf[] leaves;
-    private Fruit[] fruits;
-    private int numFruits;
-    private int numLeaves;
+    private final Trunk trunk;
+    private final Leaf[] leaves;
+    private final Fruit[] fruits;
+    private final int numFruits;
+    private final int numLeaves;
 
 
     public Tree(Vector2 groundCoord, float height, int numLeavesInRow, float cycleLength, int numFruits) {
@@ -48,10 +42,6 @@ public class Tree {
         return leaves[i];
     }
 
-    public Trunk getTrunk() {
-        return trunk;
-    }
-
     public void onJump() {
         trunk.updateColor();
         for (int i = 0; i < numLeaves; i++) {
@@ -66,19 +56,11 @@ public class Tree {
         fruits[idx] = fruit;
     }
 
-    private Fruit getFruit(int idx) {
-        return fruits[idx];
-    }
-
     public List<GameObject> getTreeComponents() {
         List<GameObject> treeComponents = new ArrayList<>();
         treeComponents.add(trunk);
-        for (int i = 0; i < numLeaves; i++) {
-            treeComponents.add(leaves[i]);
-        }
-        for (int i = 0; i < numFruits; i++) {
-            treeComponents.add(fruits[i]);
-        }
+        treeComponents.addAll(Arrays.asList(leaves).subList(0, numLeaves));
+        treeComponents.addAll(Arrays.asList(fruits).subList(0, numFruits));
         return treeComponents;
     }
 

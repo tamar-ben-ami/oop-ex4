@@ -1,21 +1,12 @@
 package pepse;
 
 import danogl.*;
-import danogl.collisions.Layer;
-import danogl.components.*;
-import danogl.gui.*;
 import danogl.gui.rendering.*;
 import danogl.util.Vector2;
-
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
-import danogl.gui.rendering.OvalRenderable;
-import danogl.util.Vector2;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class Avatar  extends GameObject {
     private static final float VELOCITY_X = 400;

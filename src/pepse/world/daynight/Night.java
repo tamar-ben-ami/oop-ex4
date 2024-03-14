@@ -1,11 +1,9 @@
 package pepse.world.daynight;
 
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.components.CoordinateSpace;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
-import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 import java.awt.*;
