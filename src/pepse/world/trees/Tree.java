@@ -7,6 +7,7 @@ import danogl.util.Vector2;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -69,14 +70,23 @@ public class Tree {
         return fruits[idx];
     }
 
-    public static Tree createTree(float groundCoordX, float groundCoordY, int numLeavesInRow, int numFruits, float height,
-                                  GameObjectCollection gameObjects, float cycleLength, Consumer<Float> eatFruitCallback) {
+    public List<GameObject> getTreeComponents() {
+        List<GameObject> treeComponents = new ArrayList<>();
+        treeComponents.add(trunk);
+        for (int i = 0; i < numLeaves; i++) {
+            treeComponents.add(leaves[i]);
+        }
+        for (int i = 0; i < numFruits; i++) {
+            treeComponents.add(fruits[i]);
+        }
+        return treeComponents;
+    }
+
+    public static Tree createTree(float groundCoordX, float groundCoordY, int numLeavesInRow, int numFruits,
+                                  float height, float cycleLength,
+                                  Consumer<Float> eatFruitCallback) {
         Tree tree = new Tree(new Vector2(groundCoordX, groundCoordY),
                 height, numLeavesInRow, cycleLength, numFruits);
-        gameObjects.addGameObject(tree.getTrunk());
-        for (int i = 0; i < numLeavesInRow*numLeavesInRow; i ++) {
-            gameObjects.addGameObject(tree.getLeaf(i), -5);
-        }
         HashSet<Integer> fruitsIndexes = new HashSet<>();
         while (fruitsIndexes.size() < numFruits)  {
             Integer j = random.nextInt(numLeavesInRow * numLeavesInRow);
@@ -84,7 +94,6 @@ public class Tree {
                 fruitsIndexes.add(j);
                 tree.addFruit(fruitsIndexes.size() - 1,
                         new Fruit(tree.getLeaf(j).getTopLeftCorner(), eatFruitCallback, random.nextInt(BOUND_COLOR_DELTA)));
-                gameObjects.addGameObject(tree.getFruit(fruitsIndexes.size() - 1));
             }
         }
         return tree;
