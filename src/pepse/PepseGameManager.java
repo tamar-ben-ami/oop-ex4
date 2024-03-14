@@ -63,7 +63,6 @@ public class PepseGameManager extends GameManager {
     }
 
     private void onJumpCallback() {
-        System.out.println("hi");
         for (int i = 0; i < trees.size(); i++) {
             trees.get(i).onJump();
         }
@@ -83,13 +82,14 @@ public class PepseGameManager extends GameManager {
                                WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         createWorld(windowController);
-        trees = new ArrayList<>();
+
         var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, this::onJumpCallback);
         gameObjects().addGameObject(avatar);
         energyLevelDisplayer = new EnergyLevelDisplayer(avatar::getEnergyLevel);
         gameObjects().addGameObject(energyLevelDisplayer);
 
-        // create random trees at random places with random number of leaves and heights
+        trees = new ArrayList<>();
+//        // create random trees at random places with random number of leaves and heights
         trees.add(Tree.createTree(250, terrian.groundHeightAt(250), 7, 7,100, gameObjects(), CYCLE_LENGTH, avatar::addEnergy));
         trees.add(Tree.createTree(700, terrian.groundHeightAt(700), 15, 10,150, gameObjects(), CYCLE_LENGTH, avatar::addEnergy));
 //        createTree(700, 15, 150);

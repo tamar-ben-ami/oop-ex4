@@ -14,7 +14,6 @@ import java.util.function.Supplier;
 class EnergyLevelDisplayer extends GameObject{
     private static final Vector2 NUM_COUNTER_DIM = new Vector2(30, 30);
 
-    private TextRenderable numericImage;
     private Supplier<Float> energyLevelGetter;
     private TextRenderable energyImage;
 

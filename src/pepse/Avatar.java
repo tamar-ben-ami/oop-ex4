@@ -21,11 +21,12 @@ public class Avatar  extends GameObject {
     private static final float VELOCITY_X = 400;
     private static final float VELOCITY_Y = -400;
     private static final float GRAVITY = 250;
-    private static final float TIME_BETWEEN_ANIMATION_CLIPS = 0.125f;
+    private static final float TIME_BETWEEN_ANIMATION_CLIPS = 0.2f;
     private static final float MAX_ENERGY = 100;
     private static final float JUMP_ENERGY_LOSS = 10;
     private static final float MOVE_ENERGY_LOSS = 0.5F;
     private static final float STANDING_ENERGY_GAIN = 1;
+
     public static final String[] IDLE_IMAGE_PATHS = {"src/assets/idle_0.png", "src/assets/idle_1.png",
             "src/assets/idle_2.png", "src/assets/idle_3.png"};
     public static final String[] JUMP_IMAGE_PATHS = {"src/assets/jump_0.png", "src/assets/jump_1.png",
@@ -34,12 +35,12 @@ public class Avatar  extends GameObject {
             "src/assets/run_2.png", "src/assets/run_3.png", "src/assets/run_4.png", "src/assets/run_5.png"};
     public static final String AVATAR_TAG = "avatar";
 
-    private UserInputListener inputListener;
+    private final UserInputListener inputListener;
     private float energyLevel;
-    private Renderable idleRenderer;
-    private Renderable jumpRenderer;
-    private Renderable runRenderer;
-    private Runnable onJumpCallback;
+    private final Renderable idleRenderer;
+    private final Renderable jumpRenderer;
+    private final Renderable runRenderer;
+    private final Runnable onJumpCallback;
 
     public float getEnergyLevel() {
         return energyLevel;
@@ -73,6 +74,7 @@ public class Avatar  extends GameObject {
         super.update(deltaTime);
         boolean didSomething = false;
         float xVel = 0;
+
         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT) && energyLevel >= MOVE_ENERGY_LOSS) {
             xVel -= VELOCITY_X;
             energyLevel -= MOVE_ENERGY_LOSS;
@@ -86,6 +88,7 @@ public class Avatar  extends GameObject {
             this.renderer().setRenderable(runRenderer);
         }
         transform().setVelocityX(xVel);
+
         if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && getVelocity().y() == 0 && energyLevel >= JUMP_ENERGY_LOSS) {
             transform().setVelocityY(VELOCITY_Y);
             energyLevel -= JUMP_ENERGY_LOSS;

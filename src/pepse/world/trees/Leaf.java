@@ -29,7 +29,9 @@ public class Leaf extends Block {
     private float cycleLength;
 
     public Leaf(Vector2 topLeftCorner, float cycleLength, int colorDelta) {
-        super(topLeftCorner, new RectangleRenderable(approximateColor(LEAF_COLOR, colorDelta)), LEAF_SIZE);
+        super(topLeftCorner, null, LEAF_SIZE);
+        RectangleRenderable leafRenderer = new RectangleRenderable(approximateColor(LEAF_COLOR, colorDelta));
+        this.renderer().setRenderable(leafRenderer);
         this.cycleLength = cycleLength;
         new ScheduledTask(this,
                 (random.nextInt()) % (cycleLength/2),
@@ -55,9 +57,9 @@ public class Leaf extends Block {
     public void rotateLeafIn90() {
         new Transition<Float>(this,
                 (Float angle) -> this.renderer().setRenderableAngle(angle),
-                this.renderer().getRenderableAngle(), this.renderer().getRenderableAngle() + 90,
+                0f, 90f,
                 Transition.LINEAR_INTERPOLATOR_FLOAT,
-                1,
+                2f,
                 Transition.TransitionType.TRANSITION_ONCE, null);
     }
 }
