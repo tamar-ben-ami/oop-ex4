@@ -8,6 +8,11 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
+/**
+ * A factory for Sun GameObject
+ * @author tamar, yaara
+ * @see GameObject
+ */
 public class Sun {
     private static final String SUN_TAG = "sun";
     private static final Vector2 SUN_COORD = new Vector2(50, 50);

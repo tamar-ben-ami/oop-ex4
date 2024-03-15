@@ -8,9 +8,18 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
+/**
+ * A factory for SunHalo GameObject
+ * @author tamar, yaara
+ * @see GameObject
+ */
 public class SunHalo {
     private static final String SUN_HALO_TAG = "sun_halo";
 
+    /**
+     * Creates SunHalo object
+     * @param sun The sun object to clap position
+     */
     public static GameObject create(GameObject sun){
         Vector2 haloDimensions = new Vector2(sun.getDimensions().x() * 2, sun.getDimensions().y() * 2);
         GameObject sunHalo = new GameObject(Vector2.ZERO, haloDimensions,

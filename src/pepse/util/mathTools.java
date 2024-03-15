@@ -1,5 +1,8 @@
 package pepse.util;
 
+/**
+ * A class that contains static methods for mathematical operations
+ */
 public class mathTools {
 
     /**

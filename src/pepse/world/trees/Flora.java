@@ -23,17 +23,24 @@ public class Flora {
     public static final int HEIGHT_LEAVES_RATIO = 10;
     private final Random random;
     private final Function<Float, Float> getGroundAt;
-    private final Consumer<Float> eatFruitCallback;
     private List<Tree> treesList;
 
-
-    public Flora(int seed, Function<Float, Float> getGroundAt,
-                 Consumer<Float> eatFruitCallback) {
+    /**
+     * Constructor of Flora object
+     * @param seed the seed for the random generator
+     * @param getGroundAt a function that returns the ground height at a given x coordinate
+     */
+    public Flora(int seed, Function<Float, Float> getGroundAt) {
         this.random = new Random(seed);
         this.getGroundAt = getGroundAt;
-        this.eatFruitCallback = eatFruitCallback;
     }
 
+    /**
+     * Creates trees in the given range
+     * @param minX the minimal x coordinate
+     * @param maxX the maximal x coordinate
+     * @return a list of the tree components
+     */
     public List<GameObject> createInRange(int minX, int maxX) {
         List<GameObject> treeComponenetsList = new ArrayList<GameObject>();
         treesList = new ArrayList<Tree>();
@@ -45,7 +52,7 @@ public class Flora {
                 int numFruits = random.nextInt(LEAVES_FRUIT_RATIO * numLeavesInRow);
                 float height = HEIGHT_LEAVES_RATIO * numLeavesInRow;
                 Tree tree = createTree(i, getGroundAt.apply((float) i), numLeavesInRow, numFruits,
-                        height, LEAVES_CYCLE_LENGTH, eatFruitCallback);
+                        height, LEAVES_CYCLE_LENGTH);
                 treesList.add(tree);
                 treeComponenetsList.addAll(tree.getTreeComponents());
             }
@@ -53,7 +60,13 @@ public class Flora {
         return treeComponenetsList;
         }
 
-    public List<Tree> getTreesList() {
-        return treesList;
+    /**
+     * Calls the onJump method of all the trees
+     */
+    public void onJumpCallback() {
+        System.out.println("hi");
+        for (Tree tree : treesList) {
+            tree.onJump();
+        }
     }
 }

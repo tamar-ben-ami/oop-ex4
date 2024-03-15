@@ -3,13 +3,12 @@ import danogl.GameManager;
 import danogl.GameObject;
 import danogl.gui.*;
 import danogl.util.Vector2;
+import pepse.avatarEnergizer.Avatar;
+import pepse.avatarEnergizer.EnergyLevelDisplayer;
 import pepse.world.*;
 import pepse.world.daynight.*;
 import danogl.collisions.Layer;
 import pepse.world.trees.Flora;
-import pepse.world.trees.Tree;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +18,7 @@ import java.util.List;
  */
 public class PepseGameManager extends GameManager {
     private static final float CYCLE_LENGTH = 30;
-    private Terrain terrain;
     private Flora flora;
-    private List<Tree> trees;
-    private Vector2 windowDimensions;
 
     /**
      * Constructor of Pepse game.
@@ -40,24 +36,25 @@ public class PepseGameManager extends GameManager {
     }
 
 
+    /**
+     * Creates the world of the game
+     * @param windowController window controller
+     */
     private void createWorld(WindowController windowController) {
-        this.windowDimensions = windowController.getWindowDimensions();
+        Vector2 windowDimensions = windowController.getWindowDimensions();
         gameObjects().addGameObject(Sky.create(windowDimensions), Layer.BACKGROUND);
         gameObjects().addGameObject(Night.create(windowDimensions, CYCLE_LENGTH), Layer.BACKGROUND);
         GameObject sun = Sun.create(windowDimensions, 100*CYCLE_LENGTH);
         gameObjects().addGameObject(sun, Layer.BACKGROUND);
         gameObjects().addGameObject(SunHalo.create(sun), Layer.BACKGROUND);
-        terrain = new Terrain(windowDimensions, 0);
+        Terrain terrain = new Terrain(windowDimensions, 0);
         List<Block> listBlocks = terrain.createInRange(0, (int) windowDimensions.x());
         for (Block block : listBlocks) {
             this.gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
         }
-    }
-
-    private void onJumpCallback() {
-        System.out.println("hi");
-        for (Tree tree : trees) {
-            tree.onJump();
+        flora = new Flora(0, terrain::groundHeightAt);
+        for (GameObject obj: flora.createInRange(0, (int) windowDimensions.x())) {
+            gameObjects().addGameObject(obj);
         }
     }
 
@@ -75,19 +72,9 @@ public class PepseGameManager extends GameManager {
                                WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         createWorld(windowController);
-
-        var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, this::onJumpCallback);
-        gameObjects().addGameObject(avatar);
+        var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, flora::onJumpCallback);
         gameObjects().addGameObject(new EnergyLevelDisplayer(avatar::getEnergyLevel));
-
-        // create random trees at random places with random number of leaves and heights
-        trees = new ArrayList<>();
-        Flora flora = new Flora(0, terrain::groundHeightAt, avatar::addEnergy);
-        for (GameObject obj: flora.createInRange(0, (int) windowDimensions.x())) {
-            gameObjects().addGameObject(obj);
-        }
-        trees.addAll(flora.getTreesList());
-
+        gameObjects().addGameObject(avatar);
     }
 
 }

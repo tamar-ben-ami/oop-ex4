@@ -3,12 +3,9 @@ package pepse.world;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
-
 import java.util.ArrayList;
 import java.util.List;
 import pepse.util.NoiseGenerator;
-
-
 import java.awt.*;
 
 /**

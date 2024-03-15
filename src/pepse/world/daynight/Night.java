@@ -8,6 +8,11 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
+/**
+ * A factory for night GameObject
+ * @author tamar, yaara
+ * @see GameObject
+ */
 public class Night {
     private static final String NIGHT_TAG = "night";
     private static final Float MIDNIGHT_OPACITY = 0.5f;

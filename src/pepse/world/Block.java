@@ -11,7 +11,6 @@ import danogl.util.Vector2;
  * @see GameObject
  */
 public class Block extends GameObject {
-    // constants
     public static final int SIZE = 30;
 
     /**
@@ -24,6 +23,9 @@ public class Block extends GameObject {
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
     }
 
+    /**
+     * Construct a Block instance with size.
+     */
     public Block(Vector2 topLeftCorner, Renderable renderable, int size) {
         super(topLeftCorner, Vector2.ONES.mult(size), renderable);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
