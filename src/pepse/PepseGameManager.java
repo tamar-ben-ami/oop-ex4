@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class PepseGameManager extends GameManager {
     private static final float CYCLE_LENGTH = 30;
-    private Flora flora;
+    private List<Tree> trees;
 
     /**
      * Constructor of Pepse game.
@@ -54,10 +54,11 @@ public class PepseGameManager extends GameManager {
         for (Block block : listBlocks) {
             this.gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
         }
-        flora = new Flora(0, terrain::groundHeightAt);
+        var flora = new Flora(0, terrain::groundHeightAt);
         for (GameObject obj: flora.createInRange(0, (int) windowDimensions.x())) {
             gameObjects().addGameObject(obj);
         }
+        trees = flora.getTreesList();
     }
 
     /**
@@ -83,8 +84,7 @@ public class PepseGameManager extends GameManager {
      * Calls the onJump method of all the trees
      */
     public void onJumpCallback() {
-        System.out.println("hi");
-        for (Tree tree : flora.getTreesList()) {
+        for (Tree tree : trees) {
             tree.onJump();
         }
     }
