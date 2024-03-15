@@ -60,13 +60,7 @@ public class Flora {
         return treeComponenetsList;
         }
 
-    /**
-     * Calls the onJump method of all the trees
-     */
-    public void onJumpCallback() {
-        System.out.println("hi");
-        for (Tree tree : treesList) {
-            tree.onJump();
-        }
+    public List<Tree> getTreesList() {
+        return treesList;
     }
 }

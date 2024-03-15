@@ -9,6 +9,8 @@ import pepse.world.*;
 import pepse.world.daynight.*;
 import danogl.collisions.Layer;
 import pepse.world.trees.Flora;
+import pepse.world.trees.Tree;
+
 import java.util.List;
 
 /**
@@ -72,9 +74,19 @@ public class PepseGameManager extends GameManager {
                                WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         createWorld(windowController);
-        var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, flora::onJumpCallback);
+        var avatar = new Avatar(Vector2.of(0, 0), inputListener, imageReader, this::onJumpCallback);
         gameObjects().addGameObject(new EnergyLevelDisplayer(avatar::getEnergyLevel));
         gameObjects().addGameObject(avatar);
+    }
+
+    /**
+     * Calls the onJump method of all the trees
+     */
+    public void onJumpCallback() {
+        System.out.println("hi");
+        for (Tree tree : flora.getTreesList()) {
+            tree.onJump();
+        }
     }
 
 }

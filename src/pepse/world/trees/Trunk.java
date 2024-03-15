@@ -11,10 +11,11 @@ import static pepse.util.ColorSupplier.approximateColor;
  * A factory for Trunk GameObject
  */
 public class Trunk extends GameObject {
-
-    private static final Color[] TRUNK_COLORS = new Color[] {new Color(100, 40, 20), new Color(110, 70, 20)};
-    public static final float TRUNK_WIDTH = 30;
-    public static final RectangleRenderable TRUNK_RENDERABLE = new RectangleRenderable(approximateColor(TRUNK_COLORS[0]));
+    static final float TRUNK_WIDTH = 30;
+    private static final Color[] TRUNK_COLORS = new Color[] {new Color(100, 40, 20),
+                                                            new Color(110, 70, 20)};
+    private static final RectangleRenderable TRUNK_RENDERER =
+            new RectangleRenderable(approximateColor(TRUNK_COLORS[0]));
     private int colorIdx = 0;
 
     /**
@@ -23,7 +24,7 @@ public class Trunk extends GameObject {
      * @param height The height of the trunk
      */
     public Trunk(Vector2 groundHeight, float height) {
-        super(new Vector2(groundHeight.x(), groundHeight.y() - height), new Vector2(TRUNK_WIDTH, height), TRUNK_RENDERABLE);
+        super(new Vector2(groundHeight.x(), groundHeight.y() - height), new Vector2(TRUNK_WIDTH, height), TRUNK_RENDERER);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
     }
