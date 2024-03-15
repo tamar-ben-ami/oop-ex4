@@ -1,4 +1,4 @@
-package pepse.avatarEnergizer;
+package pepse.world;
 
 import danogl.*;
 import danogl.gui.rendering.*;

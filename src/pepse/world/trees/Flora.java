@@ -1,26 +1,23 @@
 package pepse.world.trees;
 
 import danogl.GameObject;
-
 import pepse.util.mathTools;
 import pepse.world.Block;
-
 import java.util.*;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
-
 import static pepse.world.trees.Tree.createTree;
 
 /**
  * The Flora class represents the plant life in the game world.
  * It generates trees, leaves, and fruits to populate the environment.
+ * @author tamar, yaara
  */
 public class Flora {
     private static final int MAX_LEAVES_IN_ROW = 20;
-    public static final int LEAVES_FRUIT_RATIO = 3;
-    public static final int LEAVES_CYCLE_LENGTH = 5;
-    public static final int HEIGHT_LEAVES_RATIO = 10;
+    private static final int LEAVES_FRUIT_RATIO = 3;
+    private static final int LEAVES_CYCLE_LENGTH = 5;
+    private static final int HEIGHT_LEAVES_RATIO = 10;
     private final Random random;
     private final Function<Float, Float> getGroundAt;
     private List<Tree> treesList;
@@ -60,6 +57,9 @@ public class Flora {
         return treeComponenetsList;
         }
 
+    /**
+     * Get the list of trees
+     */
     public List<Tree> getTreesList() {
         return treesList;
     }

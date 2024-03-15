@@ -11,10 +11,9 @@ import java.util.*;
  * @see GameObject
  */
 public class Tree {
-    public static final int LEAF_BUFFER = 3;
-    public static final int BOUND_COLOR_DELTA = 20;
+    private static final int LEAF_BUFFER = 3;
+    private static final int BOUND_COLOR_DELTA = 20;
     private final static Random random = new Random();
-
     private final Trunk trunk;
     private final Leaf[] leaves;
     private final Fruit[] fruits;

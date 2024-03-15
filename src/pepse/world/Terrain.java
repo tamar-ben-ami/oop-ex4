@@ -6,6 +6,7 @@ import pepse.util.ColorSupplier;
 import java.util.ArrayList;
 import java.util.List;
 import pepse.util.NoiseGenerator;
+import pepse.util.mathTools;
 import java.awt.*;
 
 /**
@@ -16,6 +17,9 @@ import java.awt.*;
 public class Terrain {
     private static final float INITIAL_HEIGHT = 2.f/3.f;
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
+    /**
+     * The tag of the ground
+     */
     public static final String GROUND_TAG = "ground";
     private final NoiseGenerator noiseGenerator;
     private final float groundHeightAtX0;
@@ -50,8 +54,12 @@ public class Terrain {
      */
     public  List<Block> createInRange(int minX, int maxX) {
         List<Block> listBlocks = new ArrayList<Block>();
-        for (int i = clip_min(minX, Block.SIZE); i < clip_max(maxX, Block.SIZE); i += Block.SIZE) {
-            for (int j = (int) groundHeightAt(i); j < clip_max((int)windowDimensions.y(), Block.SIZE); j += Block.SIZE) {
+        for (int i = mathTools.clip_min(minX, Block.SIZE);
+             i < mathTools.clip_max(maxX, Block.SIZE);
+                i += Block.SIZE) {
+            for (int j = (int) groundHeightAt(i);
+                 j < mathTools.clip_max((int)windowDimensions.y(),
+                         Block.SIZE); j += Block.SIZE) {
                 RectangleRenderable blockColor =
                         new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
                 Block block = new Block(new Vector2(i, j), blockColor);
@@ -62,17 +70,4 @@ public class Terrain {
         return listBlocks;
     }
 
-    /**
-     * take the closest value before the given value that is a multiple of the divider
-     */
-    public static int clip_min(int value, int divider) {
-        return value - value % divider;
-    }
-
-    /**
-     * take the closest value after the given value that is a multiple of the divider
-     */
-    public static int clip_max(int value, int divider) {
-        return value + divider - value % divider;
-    }
 }

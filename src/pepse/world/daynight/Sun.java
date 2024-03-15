@@ -37,7 +37,8 @@ public class Sun {
         float halfY = windowDimensions.y() * 2 / 3;
         Vector2 cycleCenter = new Vector2(halfX, halfY);
         new Transition<Float>(sun,
-            (Float angle) -> sun.setCenter(sun.getCenter().subtract(cycleCenter).rotated(angle).add(cycleCenter)),
+            (Float angle) ->
+                sun.setCenter(sun.getCenter().subtract(cycleCenter).rotated(angle).add(cycleCenter)),
             0f, 360f, Transition.LINEAR_INTERPOLATOR_FLOAT, cycleLength,
                 Transition.TransitionType.TRANSITION_LOOP, null);
         return sun;

@@ -1,4 +1,4 @@
-package pepse.avatarEnergizer;
+package pepse.world;
 
 import danogl.GameObject;
 import danogl.gui.rendering.TextRenderable;

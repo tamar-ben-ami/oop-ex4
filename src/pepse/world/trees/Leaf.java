@@ -10,10 +10,21 @@ import java.util.Random;
 
 import static pepse.util.ColorSupplier.approximateColor;
 
+/**
+ * A factory for Leaf GameObject
+ * @author tamar, yaara
+ * @see Block
+ */
 public class Leaf extends Block {
     private static final Color LEAF_COLOR = new Color(50, 200, 30);
     private final static Random random = new Random();
+    /**
+     * The size of the leaf
+     */
     public static final int LEAF_SIZE = 15;
+    /**
+     * The dimension of the leaf
+     */
     public static final Vector2 LEAF_DIMENSION = new Vector2(LEAF_SIZE, LEAF_SIZE);
     private static final Float INITIAL_ANGLE = 20f;
     private static final Float FINAL_ANGLE = -20.f;
