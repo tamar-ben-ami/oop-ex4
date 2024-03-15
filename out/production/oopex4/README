@@ -1,0 +1,35 @@
+yaara.berg, tamarbenami
+209009687, 315244772
+
+What package and class are and the connection between them:
+Package "pepse":
+Contains the main game manager class PepseGameManager which orchestrates the game initialization and setup.
+
+Package "pepse.world":
+Contains classes related to the game world, such as Terrain, Block, Sky, etc.
+
+Package "pepse.world.daynight":
+Contains classes related to the day-night cycle of the game world, like Night, Sun, and SunHalo.
+Sky, Night, Sun, SunHalo: Collaborate to create the day/night cycle visuals.
+SunHalo: Represents the halo around the sun during the day and it gets the Sun object as a
+parameter in its constructor, so it could follow the sun's position.
+
+Package "pepse.world.trees":
+Contains classes related to flora and trees in the game world, such as Flora, Tree, Trunk, Leaf, and Fruit.
+
+Package "pepse.util.mathTools":
+Provides static methods for mathematical operations used by other classes without direct object creation.
+
+
+Design patterns used:
+Factory Method:
+Used in classes like Sun, Night, and Sky to create specific game objects (GameObject instances).
+
+Observer Pattern:
+Utilized in Flora class where it triggers a callback (onJumpCallback) when certain events occur.
+
+Composite Pattern:
+The Tree class manages its components (Leaf, Trunk, Fruit) and aggregates them into a single object.
+
+Singleton Pattern:
+Potentially applied in the PepseGameManager class as it appears to have a single instance created via its main method.
