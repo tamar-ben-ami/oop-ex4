@@ -1,36 +1,59 @@
 yaara.berg, tamarbenami
 209009687, 315244772
 
-What package and class are and the connection between them:
-Package "pepse":
-Contains the main game manager class PepseGameManager which orchestrates the game initialization and setup.
 
-Package "pepse.world":
-Contains classes related to the game world, such as Terrain, Block, Sky, etc.
+## Description of Classes:
+- Flora:
+Represents the plant life in the game world.
+Generates trees, leaves, and fruits to populate the environment.
+Contains methods to create trees within a specified range and retrieve the list of trees.
+Uses a random generator with a given seed and a function to get the ground height
+at a given x coordinate.
 
-Package "pepse.world.daynight":
-Contains classes related to the day-night cycle of the game world, like Night, Sun, and SunHalo.
-Sky, Night, Sun, SunHalo: Collaborate to create the day/night cycle visuals.
-SunHalo: Represents the halo around the sun during the day and it gets the Sun object as a
-parameter in its constructor, so it could follow the sun's position.
+- Fruit:
+Represents a fruit GameObject.
+Constructs a fruit with a given top-left corner position and color delta.
+Handles collisions with an avatar, adding energy to the avatar when eaten.
+Contains methods to update the color of the fruit, used as a callback when the avatar jumps.
 
-Package "pepse.world.trees":
-Contains classes related to flora and trees in the game world, such as Flora, Tree, Trunk, Leaf, and Fruit.
+- Leaf:
+Represents a leaf GameObject.
+Constructs a leaf with a given top-left corner position, cycle length, and color delta.
+Contains methods to rotate the leaf and update its color when the avatar jumps,
+as well as method for rotate leaf from the wind.
 
-Package "pepse.util.mathTools":
-Provides static methods for mathematical operations used by other classes without direct object creation.
+- Tree:
+Represents a tree GameObject.
+Constructs a tree with a trunk, leaves, and fruits.
+Contains methods to get specific leaves, update colors on jumping, and create a tree with random fruits.
+Uses Leaf and Fruit to create components of the tree.
+
+- Trunk:
+Represents a trunk GameObject.
+Constructs a trunk with a given ground height and height.
+Contains a method to update the color of the trunk.
 
 
-Design patterns used:
-Factory Method:
-Used in classes like Sun, Night, and Sky to create specific game objects (GameObject instances).
+## Connections between Classes:
 
-Observer Pattern:
-Utilized in Flora class where it triggers a callback (onJumpCallback) when certain events occur.
+- Flora:
+Creates instances of Tree using createTree() method.
+Utilizes Leaf and Fruit classes to create tree components.
+- Tree:
+Contains instances of Leaf and Fruit as components.
+Uses Trunk to represent the base of the tree.
+- Fruit and Leaf:
+Both are components of a Tree.
+- Trunk:
+Represents the base of a Tree.
 
-Composite Pattern:
-The Tree class manages its components (Leaf, Trunk, Fruit) and aggregates them into a single object.
-
-Singleton Pattern:
-Potentially applied in the PepseGameManager class as it appears to have a single instance
-created via its main method.
+## Design Patterns:
+- Factory Method Pattern:
+The createTree() method in Tree class acts as a factory method to create tree instances.
+- Observer Pattern:
+The onCollisionEnter() method in Fruit class observes collisions with an avatar and
+performs actions accordingly.
+- State Pattern:
+The color change behavior of Fruit and Trunk based on certain conditions can be seen
+as a simplified form of the state pattern where the objects change their behavior
+based on internal state (e.g., isEaten flag for Fruit).
