@@ -52,7 +52,7 @@ public class PepseGameManager extends GameManager {
         Terrain terrain = new Terrain(windowDimensions, 0);
         List<Block> listBlocks = terrain.createInRange(0, (int) windowDimensions.x());
         for (Block block : listBlocks) {
-            this.gameObjects().addGameObject(block, Layer.STATIC_OBJECTS);
+            this.gameObjects().addGameObject(block);
         }
         var flora = new Flora(0, terrain::groundHeightAt);
         for (GameObject obj: flora.createInRange(0, (int) windowDimensions.x())) {

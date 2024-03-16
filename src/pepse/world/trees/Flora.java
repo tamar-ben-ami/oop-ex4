@@ -14,8 +14,9 @@ import static pepse.world.trees.Tree.createTree;
  * @author tamar, yaara
  */
 public class Flora {
-    private static final int MAX_LEAVES_IN_ROW = 20;
-    private static final int LEAVES_FRUIT_RATIO = 3;
+    private static final int MIN_LEAVES_IN_ROW = 5;
+    private static final int MAX_LEAVES_IN_ROW = 10;
+    private static final int LEAVES_FRUIT_RATIO = 4;
     private static final int LEAVES_CYCLE_LENGTH = 5;
     private static final int HEIGHT_LEAVES_RATIO = 10;
     private final Random random;
@@ -45,8 +46,9 @@ public class Flora {
              i < mathTools.clip_max(maxX, Block.SIZE);
              i += Block.SIZE) {
             if (random.nextDouble() < 0.1) {
-                int numLeavesInRow = random.nextInt(MAX_LEAVES_IN_ROW);
-                int numFruits = random.nextInt(LEAVES_FRUIT_RATIO * numLeavesInRow);
+                int numLeavesInRow =
+                        random.nextInt(MAX_LEAVES_IN_ROW - MIN_LEAVES_IN_ROW + 1) + MIN_LEAVES_IN_ROW;
+                int numFruits = random.nextInt(numLeavesInRow * numLeavesInRow / LEAVES_FRUIT_RATIO);
                 float height = HEIGHT_LEAVES_RATIO * numLeavesInRow;
                 Tree tree = createTree(i, getGroundAt.apply((float) i), numLeavesInRow, numFruits,
                         height, LEAVES_CYCLE_LENGTH);

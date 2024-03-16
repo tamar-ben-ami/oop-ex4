@@ -26,8 +26,6 @@ public class Trunk extends GameObject {
     public Trunk(Vector2 groundHeight, float height) {
         super(new Vector2(groundHeight.x(), groundHeight.y() - height),
                 new Vector2(TRUNK_WIDTH, height), TRUNK_RENDERER);
-        physics().preventIntersectionsFromDirection(Vector2.ZERO);
-        physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
     }
 
     /**

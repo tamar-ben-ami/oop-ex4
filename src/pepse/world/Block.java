@@ -25,13 +25,4 @@ public class Block extends GameObject {
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
     }
-
-    /**
-     * Construct a Block instance with size.
-     */
-    public Block(Vector2 topLeftCorner, Renderable renderable, int size) {
-        super(topLeftCorner, Vector2.ONES.mult(size), renderable);
-        physics().preventIntersectionsFromDirection(Vector2.ZERO);
-        physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
-    }
 }

@@ -1,4 +1,5 @@
 package pepse.world.trees;
+import danogl.GameObject;
 import danogl.components.ScheduledTask;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
@@ -15,7 +16,7 @@ import static pepse.util.ColorSupplier.approximateColor;
  * @author tamar, yaara
  * @see Block
  */
-public class Leaf extends Block {
+public class Leaf extends GameObject {
     private static final Color LEAF_COLOR = new Color(50, 200, 30);
     private final static Random random = new Random();
     /**
@@ -39,7 +40,7 @@ public class Leaf extends Block {
      * @param colorDelta The color delta
      */
     public Leaf(Vector2 topLeftCorner, float cycleLength, int colorDelta) {
-        super(topLeftCorner, null, LEAF_SIZE);
+        super(topLeftCorner, Vector2.ONES.mult(LEAF_SIZE), null);
         RectangleRenderable leafRenderer = new RectangleRenderable(approximateColor(LEAF_COLOR, colorDelta));
         this.renderer().setRenderable(leafRenderer);
         this.cycleLength = cycleLength;
